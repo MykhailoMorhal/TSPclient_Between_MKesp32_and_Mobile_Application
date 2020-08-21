@@ -1,4 +1,18 @@
 #pragma once
-void write_data_to_txt(char *arg, std::string path_of_sensor);
-void read_data();
-std::string get_data_from_txt(std::string arg);
+
+/*----------------------------------------------------------------------
+                                Methods
+*----------------------------------------------------------------------*/
+
+/**
+ * @brief Write data to local file
+ * @param arg - pointer to raw data
+ * @param path - path to local file
+ */
+void write_data_to_file(char *arg, const std::string path);
+
+/**
+ * @brief Read data from local file
+ * @param path - path to local file
+ */
+std::string get_data_from_file(const std::string path);

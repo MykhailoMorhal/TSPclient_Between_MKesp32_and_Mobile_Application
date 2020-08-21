@@ -1,60 +1,45 @@
+/*----------------------------------------------------------------------
+                                Include
+*----------------------------------------------------------------------*/
 #include <fstream>
 #include <iostream>
 #include <string>
 
-using namespace std;
+/*----------------------------------------------------------------------
+                                Defines
+*----------------------------------------------------------------------*/
+#define	ESP_BUFF_SIZE							10u
 
-extern string value_sensor1_level1;
-extern string value_sensor1_level2;
-extern string value_sensor1_level3;
-extern string value_sensor1_level4;
- 						   
-extern string value_sensor2_level1;
-extern string value_sensor2_level2;
-extern string value_sensor2_level3;
-extern string value_sensor2_level4;
-						   
-extern string value_sensor3_level1;
-extern string value_sensor3_level2;
-extern string value_sensor3_level3;
-extern string value_sensor3_level4;
-
-void read_data()
+void write_data_to_file(char *arg, const std::string path)
 {
-	setlocale(LC_ALL, "rus"); // корректное отображение Кириллицы
-	char buff[50]; // буфер промежуточного хранения считываемого из файла текста
-	ifstream fin("cppstudio.txt"); // открыли файл для чтения
-
-	//fin >> buff; // считали первое слово из файла
-	//cout << buff << endl; // напечатали это слово
-
-	fin.getline(buff, 50); // считали строку из файла
-	fin.close(); // закрываем файл
-	cout << buff << endl; // напечатали эту строку
-}
-
-void write_data_to_txt(char *arg,string path_of_sensor)
-{
-	ofstream fout;
-	fout.open(path_of_sensor);
+	std::ofstream fout;
+	fout.open(path);
 	 
-	if (!fout.is_open()) {
-		cout << "Not open file!\n"; 
+	if (!fout.is_open()) 
+	{
+		std::cout << "Don't open file!\n"; 
 	}
-	fout << arg; // writte to txt
-	fout.close(); // close stream
+	else
+	{
+		fout << arg; 	// writte to txt
+		fout.close(); 
+	}
 }
 
-string get_data_from_txt(std::string arg) {
-
-	ifstream fout;
-	fout.open(arg);
-	if (!fout.is_open()) {
-		cout << "Not open file!\n"; // сообщить об этом
+std::string get_data_from_file(const std::string path)
+{
+	std::ifstream fout;
+	fout.open(path);
+	if (!fout.is_open()) 
+	{
+		std::cout << "Don't open file!\n"; 
 	}
-	char buff[10]; // буфер промежуточного хранения считываемого из файла текста
-	fout.getline(buff, 10);
-	string str = buff;
-	fout.close();
-	return str;
+	else
+	{
+		char buff[ESP_BUFF_SIZE];
+		fout.getline(buff, ESP_BUFF_SIZE);
+		std::string str = buff;
+		fout.close();
+		return str;
+	}
 }
